@@ -32,8 +32,8 @@ export const checkToken = (token) => {
   return fetch(`${authUrl}/users/me`, {
     method: "GET",
     headers: {
-      ...this._headers,
-      "Authorization": `Bearer ${token}`
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     },
   })
     .then(res => checkResponse(res))
