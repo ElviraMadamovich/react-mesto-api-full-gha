@@ -55,7 +55,8 @@ function App() {
     const { emailInput, password } = values
     authorize(emailInput, password)
       .then((res) => {
-        localStorage.setItem("token", res.token);
+        localStorage.setItem("jwt", res.token);
+        api.setAuthorization(res.token);
         setLoggedIn(true);
         navigate('/', { replace: true })
         setUserEmail(emailInput)
