@@ -3,7 +3,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const { allowedCors, allowedMethods } = require('./utils/constants');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errorHandler');
 const routes = require('./routes/index');
@@ -19,9 +18,17 @@ const app = express();
 
 const { PORT = 3000 } = process.env;
 
+const allowedCors = [
+  'https://domainname.students.nomoreparties.sbs',
+  'http://domainname.students.nomoreparties.sbs',
+  'localhost:3000',
+  'http://localhost:3000',
+];
+
 app.use((req, res, next) => {
   const { origin } = req.headers;
   const { method } = req;
+  const allowedMethods = 'GET,HEAD,PUT,PATCH,POST,DELETE';
   const requestHeaders = req.headers['access-control-request-headers'];
   res.header('Access-Control-Allow-Credentials', 'true');
   if (allowedCors.includes(origin)) {
