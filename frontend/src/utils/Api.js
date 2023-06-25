@@ -94,7 +94,7 @@ class Api {
 }
 
 export const api = new Api({
-  url: 'api.elviram.students.nomoreparties.sbs',
+  url: 'https://api.elviram.students.nomoreparties.sbs',
   headers: {
     authorization: `Bearer ${localStorage.setItem("jwt")}`,
     'Content-Type': 'application/json',
