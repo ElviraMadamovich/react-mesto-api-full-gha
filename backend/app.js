@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -43,6 +44,8 @@ app.use((req, res, next) => {
 
   return next();
 });
+
+app.use(cors());
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 
