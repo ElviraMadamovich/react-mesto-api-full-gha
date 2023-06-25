@@ -1,40 +1,45 @@
-import { authUrl } from "./baseUrl";
+import { authUrl } from './baseUrl';
 
-const checkResponse = (res) => {
-  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+const request = ({
+  url,
+  method = 'POST',
+  token,
+  data
+}) => {
+  return fetch(`${authUrl}${url}`, {
+    method,
+    headers: {
+      'Content-type': 'application/json',
+      ...!!token && { 'authorization': `Bearer ${token}` }
+    },
+    ...!!data && { body: JSON.stringify(data) }
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(res);
+    });
 }
 
 export const register = (email, password) => {
-  return fetch(`${authUrl}/signup`, {
-    method: "POST",
-    headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email, password })
-  })
-    .then(res => checkResponse(res))
+  return request({
+    url: '/signup',
+    data: { password: password, email: email }
+  });
 }
 
 export const authorize = (email, password) => {
-  return fetch(`${authUrl}/signin`, {
-    method: "POST",
-    headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email, password })
-  })
-    .then(res => checkResponse(res))
+  return request({
+    url: '/signin',
+    data: { password, email }
+  });
 }
 
 export const checkToken = (token) => {
-  return fetch(`${authUrl}/users/me`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-  })
-    .then(res => checkResponse(res))
+  return request({
+    url: '/users/me',
+    method: 'GET',
+    token
+  });
 }
