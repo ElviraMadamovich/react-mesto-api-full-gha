@@ -4,10 +4,6 @@ class Api {
     this._headers = headers;
   }
 
-  setAuthorization(token) {
-    this._headers['authorization'] = `Bearer ${token}`;
-  }
-
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       headers: this._headers
@@ -98,9 +94,9 @@ class Api {
 }
 
 export const api = new Api({
-  url: 'https://api.elviram.students.nomoreparties.sbs',
+  url: 'api.elviram.students.nomoreparties.sbs',
   headers: {
-    authorization: '',
-    'Content-Type': 'application/json'
+    authorization: `Bearer ${localStorage.setItem("jwt")}`,
+    'Content-Type': 'application/json',
   }
 })

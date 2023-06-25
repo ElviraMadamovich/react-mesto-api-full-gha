@@ -56,7 +56,6 @@ function App() {
     authorize(emailInput, password)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
-        api.setAuthorization(res.token);
         setLoggedIn(true);
         navigate('/', { replace: true })
         setUserEmail(emailInput)
