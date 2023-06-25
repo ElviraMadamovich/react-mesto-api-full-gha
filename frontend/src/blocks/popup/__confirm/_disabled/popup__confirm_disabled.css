@@ -1,0 +1,5 @@
+.popup__confirm_disabled {
+    background-color: rgba(255, 255, 255, 1);
+    color: #E5E5E5;
+    outline: 1px solid #E5E5E5;
+}

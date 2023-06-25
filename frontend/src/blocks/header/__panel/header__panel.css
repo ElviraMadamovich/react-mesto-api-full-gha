@@ -1,0 +1,9 @@
+.header__panel {
+    display: flex;
+}
+
+@media screen and (max-width: 1000px) {
+    .header__panel {
+        display: none;
+    }
+}

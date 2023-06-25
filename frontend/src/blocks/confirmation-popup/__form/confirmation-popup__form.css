@@ -1,0 +1,14 @@
+.confirmation-popup__form {
+    min-width: 358px;
+    max-height: 181px;
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    position: relative;
+}
+
+@media screen and (max-width: 1000px) {
+    .confirmation-popup__form {
+        min-width: 238px;
+    }
+}

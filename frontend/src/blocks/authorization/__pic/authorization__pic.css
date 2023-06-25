@@ -1,0 +1,6 @@
+.authorization__pic {
+  display: block;
+  width: auto;
+  max-height: 35px;
+  object-fit: cover;
+}

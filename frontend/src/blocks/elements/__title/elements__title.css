@@ -1,0 +1,11 @@
+.elements__title {
+  padding: 0;
+  margin: 22px 20px 0 21px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 246px;
+  max-height: 36px;
+}

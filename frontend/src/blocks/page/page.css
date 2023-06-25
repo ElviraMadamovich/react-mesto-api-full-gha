@@ -1,0 +1,25 @@
+.page {
+    width: 100%;
+    min-height: 4000px;
+    margin: 0 auto;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 1);
+    font-family: 'Inter', sans-serif;
+    color: rgba(255, 255, 255, 1);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    z-index: 0;
+}
+
+* {
+    scroll-behavior: smooth;
+}

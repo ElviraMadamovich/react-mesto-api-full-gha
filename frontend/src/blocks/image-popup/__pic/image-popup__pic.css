@@ -1,0 +1,11 @@
+.image-popup__pic {
+  width: 100%;
+  max-width: 75vw;
+  max-height: 75vh;
+  height: 100%;
+  object-fit: cover;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+}

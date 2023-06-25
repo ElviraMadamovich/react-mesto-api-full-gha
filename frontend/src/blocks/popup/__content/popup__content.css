@@ -1,0 +1,12 @@
+.popup__content {
+    all: unset;
+    width: 100%;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 0 0 30px 0;
+    color: rgba(0, 0, 0, 1);
+    border: none;
+    padding: 0 0 8px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+}

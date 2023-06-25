@@ -1,0 +1,15 @@
+@media screen and (max-width: 1000px) {
+    .header__panel_active {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        border-bottom: 1px solid #545454;
+        padding: 0 0 40px 0;
+        top: 40px;
+        left: 0;
+        max-width: 320px;
+        width: 100%;
+        margin: 0 0 40px 0;
+    }
+}

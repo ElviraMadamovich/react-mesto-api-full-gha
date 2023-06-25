@@ -1,0 +1,10 @@
+.authorization__button_inactive {
+  background-color: #000;
+  color: #ffffff33;
+  border: 1px solid #ffffff33;
+  cursor: auto;
+}
+
+.authorization__button_inactive:hover {
+  opacity: 1;
+}
