@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 51.250.80.178
+IP 51.250.80.178
 
 Frontend https://domainname.students.nomoreparties.sbs
 
