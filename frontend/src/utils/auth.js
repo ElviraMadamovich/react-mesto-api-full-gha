@@ -41,6 +41,6 @@ export const register = (email, password) => {
   });
 };
 
-export const getUserData = (token) => {
+export const checkToken = (token) => {
   return request("users/me", "GET", null, token);
 };
