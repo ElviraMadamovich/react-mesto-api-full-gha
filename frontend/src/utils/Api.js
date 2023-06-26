@@ -1,39 +1,44 @@
 class Api {
-  constructor({ url, headers }) {
+  constructor({ url }) {
     this._url = url;
-    this._headers = headers;
+  }
+
+  _getHeaders() {
+    return {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-type": "application/json",
+    };
   }
 
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
-      headers: this._headers
+      headers: this._getHeaders(),
     })
       .then(this._checkResponse);
   }
 
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
-      headers: this._headers
+      headers: this._getHeaders(),
     })
       .then(this._checkResponse);
   }
 
   updateDetails(data) {
     return fetch(`${this._url}/users/me`, {
-      method: 'PATCH',
-      headers: this._headers,
+      method: "PATCH",
+      headers: this._getHeaders(),
       body: JSON.stringify({
         name: data.name,
-        about: data.about
-      })
-    })
-      .then(res => this._checkResponse(res));
+        about: data.about,
+      }),
+    }).then(this._checkResponse);
   }
 
   addNewCard(data) {
     return fetch(`${this._url}/cards`, {
-      method: 'POST',
-      headers: this._headers,
+      method: "POST",
+      headers: this._getHeaders(),
       body: JSON.stringify({
         name: data.name,
         link: data.link
@@ -43,27 +48,25 @@ class Api {
   }
 
   deleteUserCard(cardId) {
-    return fetch(`${this._url}/cards/${cardId}`, {
-      method: 'DELETE',
-      headers: this._headers
+    return fetch(`${this._url}/cards/${cardId} `, {
+      method: "DELETE",
+      headers: this._getHeaders(),
     })
       .then(this._checkResponse);
   }
 
   putLike(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
-      method: 'PUT',
-      headers: this._headers
-    })
-      .then(this._checkResponse);
+      method: "PUT",
+      headers: this._getHeaders(),
+    }).then(this._checkResponse);
   }
 
   removeLike(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
-      method: 'DELETE',
-      headers: this._headers
-    })
-      .then(this._checkResponse);
+      method: "DELETE",
+      headers: this._getHeaders(),
+    }).then(this._checkResponse);
   }
 
   toggleLike(cardId, isLiked) {
@@ -75,11 +78,11 @@ class Api {
   }
 
   changeUserAvatar(avatar) {
-    return fetch(this._url + "/users/me/avatar", {
-      method: 'PATCH',
-      headers: this._headers,
+    return fetch(`${this._url}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._getHeaders(),
       body: JSON.stringify({
-        avatar
+        avatar,
       }),
     })
       .then(res => this._checkResponse(res));
@@ -93,9 +96,6 @@ class Api {
   }
 }
 
-export const api = new Api({
-  url: 'https://api.elviram.students.nomoreparties.sbs',
-  headers: {
-    'Content-Type': 'application/json',
-  }
-})
+export const api = new Api(
+  'https://api.elviram.students.nomoreparties.sbs',
+)
