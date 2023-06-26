@@ -10,7 +10,7 @@ const UnauthorizedError = require('../utils/errors/UnauthorizedError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-const login = (req, res, next) => {
+const authorize = (req, res, next) => {
   const { email, password } = req.body;
 
   return userSample
@@ -46,7 +46,7 @@ const getUsers = (req, res, next) => {
     });
 };
 
-const getCurrentUser = (req, res, next) => {
+const checkToken = (req, res, next) => {
   userSample
     .findById(req.user._id)
     .orFail()
@@ -82,7 +82,7 @@ const getUserById = (req, res, next) => {
     });
 };
 
-const createUser = (req, res, next) => {
+const register = (req, res, next) => {
   const {
     name,
     about,
@@ -142,22 +142,22 @@ const changeUserInfo = (req, res, { name, about, avatar }, next) => {
     });
 };
 
-const changeUser = (req, res, next) => {
+const updateDetails = (req, res, next) => {
   const { name, about } = req.body;
   changeUserInfo(req, res, { name, about }, next);
 };
 
-const changeAvatar = (req, res, next) => {
+const changeUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
   changeUserInfo(req, res, { avatar }, next);
 };
 
 module.exports = {
-  login,
+  authorize,
   getUsers,
-  getCurrentUser,
+  checkToken,
   getUserById,
-  createUser,
-  changeUser,
-  changeAvatar,
+  register,
+  updateDetails,
+  changeUserAvatar,
 };

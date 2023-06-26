@@ -5,8 +5,8 @@ const users = require('./users');
 const cards = require('./cards');
 const auth = require('../middlewares/auth');
 const {
-  login,
-  createUser,
+  authorize,
+  register,
 } = require('../controllers/users');
 const {
   validateCreateUser,
@@ -14,8 +14,8 @@ const {
 } = require('../middlewares/dataValidation');
 const NotFoundError = require('../utils/errors/NotFoundError');
 
-routes.post('/signin', validateLogin, login);
-routes.post('/signup', validateCreateUser, createUser);
+routes.post('/signin', validateLogin, authorize);
+routes.post('/signup', validateCreateUser, register);
 
 routes.use('/users', auth, users);
 routes.use('/cards', auth, cards);
