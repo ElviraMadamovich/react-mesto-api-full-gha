@@ -5,7 +5,7 @@ const BadRequestError = require('../utils/errors/BadRequestError');
 const NotFoundError = require('../utils/errors/NotFoundError');
 const { HTTP_STATUS_CREATED } = require('../utils/constants');
 
-const getCards = (req, res, next) => {
+const getInitialCards = (req, res, next) => {
   cardSample
     .find({})
     .then((cards) => {
@@ -14,7 +14,7 @@ const getCards = (req, res, next) => {
     .catch(next);
 };
 
-const createCard = (req, res, next) => {
+const addNewCard = (req, res, next) => {
   const owner = req.user._id;
   const { name, link } = req.body;
 
@@ -31,7 +31,7 @@ const createCard = (req, res, next) => {
     });
 };
 
-const deleteCard = (req, res, next) => {
+const deleteUserCard = (req, res, next) => {
   cardSample
     .findById(req.params.cardId)
     .orFail()
@@ -54,7 +54,7 @@ const deleteCard = (req, res, next) => {
     });
 };
 
-const likeCard = (req, res, next) => {
+const putLike = (req, res, next) => {
   cardSample
     .findByIdAndUpdate(
       req.params.cardId,
@@ -76,7 +76,7 @@ const likeCard = (req, res, next) => {
     });
 };
 
-const dislikeCard = (req, res, next) => {
+const removeLike = (req, res, next) => {
   cardSample
     .findByIdAndUpdate(
       req.params.cardId,
@@ -99,9 +99,9 @@ const dislikeCard = (req, res, next) => {
 };
 
 module.exports = {
-  getCards,
-  createCard,
-  deleteCard,
-  likeCard,
-  dislikeCard,
+  getInitialCards,
+  addNewCard,
+  deleteUserCard,
+  putLike,
+  removeLike,
 };
