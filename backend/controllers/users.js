@@ -1,4 +1,5 @@
 /* eslint-disable no-shadow */
+const { NODE_ENV, JWT_SECRET } = process.env;
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -7,8 +8,6 @@ const BadRequestError = require('../utils/errors/BadRequestError');
 const NotFoundError = require('../utils/errors/NotFoundError');
 const ConflictError = require('../utils/errors/ConflictError');
 const UnauthorizedError = require('../utils/errors/UnauthorizedError');
-
-const { NODE_ENV, JWT_SECRET } = process.env;
 
 const authorize = (req, res, next) => {
   const { email, password } = req.body;

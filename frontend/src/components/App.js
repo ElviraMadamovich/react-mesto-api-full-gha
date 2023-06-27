@@ -56,6 +56,7 @@ function App() {
     authorize(emailInput, password)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
+        api.setAuthorization(res.token);
         setLoggedIn(true);
         navigate('/', { replace: true })
         setUserEmail(emailInput)
@@ -102,7 +103,7 @@ function App() {
   }
 
   React.useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
+    const jwt = localStorage.getItem("token");
     if (jwt) {
       checkToken(jwt)
         .then((res) => {
@@ -117,7 +118,9 @@ function App() {
   }, [])
 
   React.useEffect(() => {
-    if (loggedIn) {
+    if (localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt');
+      api.setAuthorization(jwt);
       Promise.all([
         api.getUserInfo(),
         api.getInitialCards(),
@@ -130,7 +133,10 @@ function App() {
           console.log(err);
         })
     }
-  }, [loggedIn])
+    else {
+      api.setAuthorization('');
+    }
+  }, [])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -198,9 +204,9 @@ function App() {
   }
 
   function handleLike(card) {
-    const isLiked = card.likes.some((person) => person._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     api
-      .toggleLike(card._id, isLiked)
+      .toggleLike(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) =>
           state.map((c) => (c._id === card._id ? newCard : c))
@@ -224,6 +230,7 @@ function App() {
 
   function signOut() {
     localStorage.removeItem('jwt');
+    api.setAuthorization('');
     navigate('/sign-in');
     setLoggedIn(false);
     setUserEmail('');
@@ -283,7 +290,7 @@ function App() {
         <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups} />
-          
+
         <InfoTooltip isOpen={isOpenInfoTooltip} onClose={closeAllPopups} message={message} />
       </div >
     </CurrentUserContext.Provider>

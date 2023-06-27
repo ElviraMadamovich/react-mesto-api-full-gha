@@ -1,6 +1,6 @@
 .elements__delete {
   all: unset;
-  display: none;
+  display: block;
   min-width: 18px;
   min-height: 19px;
   padding: 0;
