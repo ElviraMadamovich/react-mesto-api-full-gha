@@ -17,6 +17,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
 
 function App() {
+  const navigate = useNavigate();
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
@@ -32,9 +33,39 @@ function App() {
     text: "",
   });
   const [userEmail, setUserEmail] = React.useState("");
-  const navigate = useNavigate();
 
   const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('token');
+    checkToken(token)
+      .then((res) => {
+        setLoggedIn(true);
+        setUserEmail(res.data.email);
+        navigate("/", { replace: true });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, [loggedIn, navigate])
+
+  React.useEffect(() => {
+    if (localStorage.getItem('token')) {
+
+      Promise.all([
+        api.getUserInfo(),
+        api.getInitialCards(),
+      ])
+        .then(([user, card]) => {
+          setCurrentUser(user)
+          setCards(card);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    };
+  },
+    [loggedIn])
 
   React.useEffect(() => {
     function closeByEscape(evt) {
@@ -50,30 +81,26 @@ function App() {
     }
   }, [isOpen])
 
-  function handleLogin(values, setLoadingImage) {
+  function handleLogin({ emailInput, password }, setLoadingImage) {
 
-    const { emailInput, password } = values
     authorize(emailInput, password)
       .then((res) => {
-        localStorage.setItem("jwt", res.token);
-        api.setAuthorization(res.token);
-        setLoggedIn(true);
-        navigate('/', { replace: true })
-        setUserEmail(emailInput)
+        if (res.token) {
+          localStorage.setItem('token', res.token);
+          setLoggedIn(true);
+          setUserEmail(emailInput);
+          navigate('/', { replace: true })
+        }
       })
-      .catch((res) => {
-        if (res === 'Ошибка: 401') {
+      .catch((err) => {
+        if (err) {
           setMessage({
             status: false,
-            text: "Аккаунт не зарегистрирован",
-          });
-        } else {
-          setMessage({
-            status: false,
-            text: res,
+            text: "Ошибка авторизации",
           });
         }
         setOpenInfoTooltip(true);
+        console.log(err);
       })
       .finally(() => {
         setLoadingImage(false)
@@ -101,42 +128,6 @@ function App() {
         setOpenInfoTooltip(true)
       })
   }
-
-  React.useEffect(() => {
-    const jwt = localStorage.getItem("token");
-    if (jwt) {
-      checkToken(jwt)
-        .then((res) => {
-          setLoggedIn(true);
-          setUserEmail(res.data.email);
-          navigate("/", { replace: true });
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    }
-  }, [])
-
-  React.useEffect(() => {
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-      api.setAuthorization(jwt);
-      Promise.all([
-        api.getUserInfo(),
-        api.getInitialCards(),
-      ])
-        .then(([user, card]) => {
-          setCurrentUser(user)
-          setCards(card);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    }
-    else {
-      api.setAuthorization('');
-    }
-  }, [])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -229,11 +220,12 @@ function App() {
   }
 
   function signOut() {
-    localStorage.removeItem('jwt');
-    api.setAuthorization('');
-    navigate('/sign-in');
-    setLoggedIn(false);
-    setUserEmail('');
+    if (localStorage.getItem('token')) {
+      localStorage.removeItem('token');
+      navigate('/sign-in');
+      setLoggedIn(false);
+      setUserEmail('');
+    }
   }
 
   return (

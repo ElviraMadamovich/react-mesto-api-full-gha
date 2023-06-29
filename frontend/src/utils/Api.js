@@ -4,10 +4,6 @@ class Api {
     this._headers = headers;
   }
 
-  setAuthorization(token) {
-    this._headers['authorization'] = `Bearer ${token}`;
-  }
-
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       method: "GET",
@@ -49,10 +45,7 @@ class Api {
   deleteUserCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}`, {
       method: "DELETE",
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-        'Content-type': 'application/json'
-      },
+      headers: this._headers,
     })
       .then(this._checkResponse);
   }
@@ -60,20 +53,14 @@ class Api {
   putLike(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "PUT",
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-        'Content-type': 'application/json'
-      },
+      headers: this._headers,
     }).then(this._checkResponse);
   }
 
   removeLike(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "DELETE",
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-        'Content-type': 'application/json'
-      },
+      headers: this._headers,
     }).then(this._checkResponse);
   }
 
@@ -107,7 +94,7 @@ class Api {
 export const api = new Api({
   url: 'https://api.elviram.students.nomoreparties.sbs',
   headers: {
-    authorization: '',
+    authorization: `Bearer ${localStorage.getItem('token')}`,
     'Content-Type': 'application/json'
   }
 });
