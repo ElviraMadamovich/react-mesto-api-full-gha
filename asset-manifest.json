@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "./static/css/main.aea049ae.css",
+    "main.js": "./static/js/main.dadf2dd0.js",
+    "static/js/787.5530211c.chunk.js": "./static/js/787.5530211c.chunk.js",
+    "static/media/loading.gif": "./static/media/loading.9ba5bc2d2a603ed5ca8d.gif",
+    "static/media/Inter-Black.woff": "./static/media/Inter-Black.fd37f7e052bea1018058.woff",
+    "static/media/Inter-Regular.woff?v=3.19": "./static/media/Inter-Regular.34ed58565339f4f3be40.woff",
+    "static/media/Inter-Black.woff2": "./static/media/Inter-Black.141c7af6ed109b318513.woff2",
+    "static/media/Inter-Regular.woff2?v=3.19": "./static/media/Inter-Regular.4c96ed73beaf6d1e6cc7.woff2",
+    "static/media/Inter-Medium.woff?v=3.19": "./static/media/Inter-Medium.9053572c46aeb4b16caa.woff",
+    "static/media/Inter-Medium.woff2?v=3.19": "./static/media/Inter-Medium.293fd13dbca5a3e450ef.woff2",
+    "static/media/Cousteau.jpg": "./static/media/Cousteau.d58ba27482ce0e8bb4ad.jpg",
+    "static/media/like.svg": "./static/media/like.7913ddfd147a48616b09.svg",
+    "index.html": "./index.html",
+    "static/media/fail.svg": "./static/media/fail.7c6a020bec681932a2af92e04114a848.svg",
+    "static/media/delete.svg": "./static/media/delete.823b0cf1b0b7e9cb7cad.svg",
+    "static/media/success.svg": "./static/media/success.1b6082f862eac35e2514460237d96ecc.svg",
+    "static/media/active.svg": "./static/media/active.fe17a515669479b1e649.svg",
+    "static/media/Close.svg": "./static/media/Close.ad98de32e342afafa118.svg",
+    "static/media/edit.svg": "./static/media/edit.8667ac4a523e8fc42e59.svg",
+    "static/media/button-avatar.svg": "./static/media/button-avatar.a086f758840ae814ecde.svg",
+    "static/media/add.svg": "./static/media/add.d86bb2edc2f6eadb96b7.svg",
+    "main.aea049ae.css.map": "./static/css/main.aea049ae.css.map",
+    "main.dadf2dd0.js.map": "./static/js/main.dadf2dd0.js.map",
+    "787.5530211c.chunk.js.map": "./static/js/787.5530211c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.aea049ae.css",
+    "static/js/main.dadf2dd0.js"
+  ]
+}
