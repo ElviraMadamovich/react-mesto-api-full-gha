@@ -37,8 +37,8 @@ function App() {
   const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard
 
   React.useEffect(() => {
-    const token = localStorage.getItem('token');
-    checkToken(token)
+    const jwt = localStorage.getItem('jwt');
+    checkToken(jwt)
       .then((res) => {
         setLoggedIn(true);
         setUserEmail(res.data.email);
@@ -50,7 +50,7 @@ function App() {
   }, [loggedIn, navigate])
 
   React.useEffect(() => {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('jwt')) {
 
       Promise.all([
         api.getUserInfo(),
@@ -85,12 +85,10 @@ function App() {
 
     authorize(emailInput, password)
       .then((res) => {
-        if (res.token) {
-          localStorage.setItem('token', res.token);
-          setLoggedIn(true);
-          setUserEmail(emailInput);
-          navigate('/', { replace: true })
-        }
+        localStorage.setItem('jwt', res.token);
+        setLoggedIn(true);
+        setUserEmail(emailInput);
+        navigate('/', { replace: true })
       })
       .catch((err) => {
         if (err) {
@@ -220,8 +218,8 @@ function App() {
   }
 
   function signOut() {
-    if (localStorage.getItem('token')) {
-      localStorage.removeItem('token');
+    if (localStorage.getItem('jwt')) {
+      localStorage.removeItem('jwt');
       navigate('/sign-in');
       setLoggedIn(false);
       setUserEmail('');
