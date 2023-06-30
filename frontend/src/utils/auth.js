@@ -7,7 +7,6 @@ const request = (url, method, body, token) => {
       "Content-Type": "application/json",
     },
   };
-
   if (body) {
     options.body = JSON.stringify(body);
   }
