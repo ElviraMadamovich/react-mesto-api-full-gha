@@ -22,6 +22,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      resetForm={resetForm}
       isDisabled={!isValid}>
 
       <input
@@ -37,9 +38,9 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
         maxLength={30} />
 
       <span
-        className={`${errors.caption ? "popup__error popup__error_active popup__error_title" : "popup__error"}`}
+        className={`${errors.name ? "popup__error popup__error_active popup__error_title" : "popup__error"}`}
         id="caption-error">
-        {errors.caption}
+        {errors.name}
       </span>
 
       <input

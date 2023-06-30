@@ -1,20 +1,25 @@
 class Api {
-  constructor({ url, headers }) {
+  constructor(url) {
     this._url = url;
-    this._headers = headers;
+  }
+
+  _setAuthorization() {
+    return {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-type": "application/json",
+    };
   }
 
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
-      method: "GET",
-      headers: this._headers
+      headers: this._setAuthorization(),
     })
       .then(this._checkResponse);
   }
 
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
-      headers: this._headers,
+      headers: this._setAuthorization(),
     })
       .then(this._checkResponse);
   }
@@ -22,7 +27,7 @@ class Api {
   updateDetails(data) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: this._setAuthorization(),
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -33,19 +38,16 @@ class Api {
   addNewCard(data) {
     return fetch(`${this._url}/cards`, {
       method: "POST",
-      headers: this._headers,
-      body: JSON.stringify({
-        name: data.name,
-        link: data.link
-      })
+      headers: this._setAuthorization(),
+      body: JSON.stringify(data),
     })
       .then(res => this._checkResponse(res));
   }
 
   deleteUserCard(cardId) {
-    return fetch(`${this._url}/cards/${cardId}`, {
+    return fetch(`${this._url}/cards/${cardId} `, {
       method: "DELETE",
-      headers: this._headers,
+      headers: this._setAuthorization(),
     })
       .then(this._checkResponse);
   }
@@ -53,14 +55,14 @@ class Api {
   putLike(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "PUT",
-      headers: this._headers,
+      headers: this._setAuthorization(),
     }).then(this._checkResponse);
   }
 
   removeLike(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: this._setAuthorization(),
     }).then(this._checkResponse);
   }
 
@@ -75,7 +77,7 @@ class Api {
   changeUserAvatar(avatar) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: this._setAuthorization(),
       body: JSON.stringify({
         avatar,
       }),
@@ -91,10 +93,6 @@ class Api {
   }
 }
 
-export const api = new Api({
-  url: 'https://api.elviram.students.nomoreparties.sbs',
-  headers: {
-    authorization: `Bearer ${localStorage.getItem('token')}`,
-    'Content-Type': 'application/json'
-  }
-});
+export const api = new Api(
+  'https://api.elviram.students.nomoreparties.sbs'
+);

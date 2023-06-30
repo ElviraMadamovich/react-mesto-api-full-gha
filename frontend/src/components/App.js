@@ -17,55 +17,24 @@ import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
 
 function App() {
-  const navigate = useNavigate();
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [cardToBeDeleted, setCardToBeDeleted] = React.useState(null);
-  const [isOpenInfoTooltip, setOpenInfoTooltip] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
+  const [isLoading, setIsLoading] = React.useState(false);
   const [cards, setCards] = React.useState([]);
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [userEmail, setUserEmail] = React.useState("");
+  const [isOpenInfoTooltip, setOpenInfoTooltip] = React.useState(false);
+  const [cardToBeDeleted, setCardToBeDeleted] = React.useState(null);
   const [message, setMessage] = React.useState({
     status: false,
     text: "",
   });
-  const [userEmail, setUserEmail] = React.useState("");
+  const navigate = useNavigate();
 
   const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard
-
-  React.useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    checkToken(jwt)
-      .then((res) => {
-        setLoggedIn(true);
-        setUserEmail(res.data.email);
-        navigate("/", { replace: true });
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }, [loggedIn, navigate])
-
-  React.useEffect(() => {
-    if (localStorage.getItem('jwt')) {
-
-      Promise.all([
-        api.getUserInfo(),
-        api.getInitialCards(),
-      ])
-        .then(([user, card]) => {
-          setCurrentUser(user)
-          setCards(card);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    };
-  },
-    [loggedIn])
 
   React.useEffect(() => {
     function closeByEscape(evt) {
@@ -81,14 +50,30 @@ function App() {
     }
   }, [isOpen])
 
-  function handleLogin({ emailInput, password }, setLoadingImage) {
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      checkToken(token)
+        .then((res) => {
+          setLoggedIn(true);
+          setUserEmail(res.email);
+          navigate("/", { replace: true });
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
+  }, [loggedIn, navigate])
 
+  function handleLogin(values, setLoadingImage) {
+
+    const { emailInput, password } = values
     authorize(emailInput, password)
       .then((res) => {
-        localStorage.setItem('jwt', res.token);
+        localStorage.setItem("token", res.token);
         setLoggedIn(true);
-        setUserEmail(emailInput);
         navigate('/', { replace: true })
+        setUserEmail(emailInput)
       })
       .catch((err) => {
         if (err) {
@@ -126,6 +111,22 @@ function App() {
         setOpenInfoTooltip(true)
       })
   }
+
+  React.useEffect(() => {
+    if (loggedIn) {
+      Promise.all([
+        api.getUserInfo(),
+        api.getInitialCards(),
+      ])
+        .then(([user, card]) => {
+          setCurrentUser(user)
+          setCards(card);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
+  }, [loggedIn])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -218,12 +219,10 @@ function App() {
   }
 
   function signOut() {
-    if (localStorage.getItem('jwt')) {
-      localStorage.removeItem('jwt');
-      navigate('/sign-in');
-      setLoggedIn(false);
-      setUserEmail('');
-    }
+    localStorage.removeItem('token');
+    navigate('/sign-in');
+    setLoggedIn(false);
+    setUserEmail('');
   }
 
   return (
